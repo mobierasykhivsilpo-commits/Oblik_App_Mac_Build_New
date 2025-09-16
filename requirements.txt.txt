@@ -1,0 +1,4 @@
+pyside6
+pandas
+openpyxl
+xlrd
