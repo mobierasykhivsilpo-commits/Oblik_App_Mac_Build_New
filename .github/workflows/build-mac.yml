@@ -1,0 +1,35 @@
+name: Build macOS App
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+
+    - name: Run PyInstaller
+      run: |
+        pyinstaller Oblik_PySide.spec
+
+    - name: Archive macOS app
+      uses: actions/upload-artifact@v4
+      with:
+        name: Oblik_PySide-macOS
+        path: dist/Oblik_PySide.app
